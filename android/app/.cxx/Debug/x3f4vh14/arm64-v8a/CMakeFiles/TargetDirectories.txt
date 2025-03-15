@@ -1,0 +1,2 @@
+C:/Users/user/Desktop/graduaton project second semester/a/android/app/.cxx/Debug/x3f4vh14/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/user/Desktop/graduaton project second semester/a/android/app/.cxx/Debug/x3f4vh14/arm64-v8a/CMakeFiles/rebuild_cache.dir

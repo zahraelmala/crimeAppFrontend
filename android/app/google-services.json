@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "270022142893",
+    "project_id": "crime-1b92b",
+    "storage_bucket": "crime-1b92b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270022142893:android:f0f65be1c312cd2d8c0f24",
+        "android_client_info": {
+          "package_name": "com.crimecatcher.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH-xIgxmoQyZnYIZeQOIzI5vbYKvPmT7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
