@@ -1,0 +1,1 @@
+enum FutureState { initial, loading, success, failed }
