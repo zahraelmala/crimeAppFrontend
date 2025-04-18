@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CrimeListScreen extends StatelessWidget {
-  const CrimeListScreen({Key? key}) : super(key: key);
+  const CrimeListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,9 @@ class CrimeListScreen extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: const CrimeList(),
@@ -32,34 +34,34 @@ class CrimeListScreen extends StatelessWidget {
 }
 
 class CrimeList extends StatefulWidget {
-  const CrimeList({Key? key}) : super(key: key);
+  const CrimeList({super.key});
 
   @override
-  _CrimeListState createState() => _CrimeListState();
+  CrimeListState createState() => CrimeListState();
 }
 
-class _CrimeListState extends State<CrimeList> {
+class CrimeListState extends State<CrimeList> {
   final List<CrimeOption> crimes = const [
     CrimeOption(
         title: 'Theft',
         details:
-        'Theft is a crime that involves unlawfully taking someone else\'s property with the intent to permanently deprive the owner of it. It\'s one of the most common types of crime and is generally categorized based on the value of the stolen property.'),
+            'Theft is a crime that involves unlawfully taking someone else\'s property with the intent to permanently deprive the owner of it. It\'s one of the most common types of crime and is generally categorized based on the value of the stolen property.'),
     CrimeOption(
         title: 'Burglary',
         details:
-        'Burglary involves unlawfully entering a building, residence, or property with the intent to commit theft or another crime. It typically occurs when the occupants are not present, but it can also happen during home invasions. Burglary can lead to property loss and emotional distress.'),
+            'Burglary involves unlawfully entering a building, residence, or property with the intent to commit theft or another crime. It typically occurs when the occupants are not present, but it can also happen during home invasions. Burglary can lead to property loss and emotional distress.'),
     CrimeOption(
         title: 'Violence',
         details:
-        'Violence refers to physical force intended to harm, damage, or kill someone. Violent crimes often involve aggression and pose serious risks to individuals\' safety. Common forms of violence include assault, domestic violence, armed robbery, and homicide.'),
+            'Violence refers to physical force intended to harm, damage, or kill someone. Violent crimes often involve aggression and pose serious risks to individuals\' safety. Common forms of violence include assault, domestic violence, armed robbery, and homicide.'),
     CrimeOption(
         title: 'Fraud',
         details:
-        'Fraud is a deliberate act of deception intended to result in financial or personal gain at the expense of another party. It involves manipulating information or identity to steal money, services, or sensitive information. Fraudulent activities can occur online, in-person, or through various forms of communication.'),
+            'Fraud is a deliberate act of deception intended to result in financial or personal gain at the expense of another party. It involves manipulating information or identity to steal money, services, or sensitive information. Fraudulent activities can occur online, in-person, or through various forms of communication.'),
     CrimeOption(
         title: 'Cybercrime',
         details:
-        'Cybercrime involves illegal activities carried out using computers or the internet. It targets individuals, businesses, and organizations, often aiming to steal sensitive information, cause disruption, or gain unauthorized access to systems.'),
+            'Cybercrime involves illegal activities carried out using computers or the internet. It targets individuals, businesses, and organizations, often aiming to steal sensitive information, cause disruption, or gain unauthorized access to systems.'),
   ];
 
   @override
@@ -78,14 +80,13 @@ class CrimeOption extends StatefulWidget {
   final String title;
   final String details;
 
-  const CrimeOption({Key? key, required this.title, required this.details})
-      : super(key: key);
+  const CrimeOption({super.key, required this.title, required this.details});
 
   @override
-  _CrimeOptionState createState() => _CrimeOptionState();
+  CrimeOptionState createState() => CrimeOptionState();
 }
 
-class _CrimeOptionState extends State<CrimeOption> {
+class CrimeOptionState extends State<CrimeOption> {
   bool isExpanded = false;
 
   @override

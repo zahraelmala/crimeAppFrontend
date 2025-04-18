@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EmergencyServicePage extends StatefulWidget {
+  const EmergencyServicePage({super.key});
+
   @override
-  _EmergencyServicePageState createState() => _EmergencyServicePageState();
+  EmergencyServicePageState createState() => EmergencyServicePageState();
 }
 
-class _EmergencyServicePageState extends State<EmergencyServicePage> {
+class EmergencyServicePageState extends State<EmergencyServicePage> {
   bool emergencyServiceEnabled = true;
   bool doubleClickEnabled = false;
   bool sendMessageEnabled = true;

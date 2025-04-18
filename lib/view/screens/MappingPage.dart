@@ -32,88 +32,58 @@ class MappingPageState extends State<MappingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mapping'),
-        backgroundColor: Colors.red,
-        centerTitle: true,
-      ),
-      body: Stack(
-        children: [
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(37.7749, -122.4194),
-              zoom: 12.0,
-            ),
-            markers: _markers,
+    return Stack(
+      children: [
+        GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: const CameraPosition(
+            target: LatLng(37.7749, -122.4194),
+            zoom: 12.0,
           ),
-          Positioned(
-            bottom: 100,
-            left: 20,
-            right: 20,
-            child: Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Row(
-                      children: [
-                        Icon(Icons.place, color: Colors.red),
-                        SizedBox(width: 8),
-                        Text('Dangerous places.'),
-                      ],
-                    ),
-                    const Row(
-                      children: [
-                        Icon(Icons.place, color: Colors.green),
-                        SizedBox(width: 8),
-                        Text('Safe places.'),
-                      ],
-                    ),
-                    const Row(
-                      children: [
-                        Icon(Icons.add, color: Colors.black),
-                        SizedBox(width: 8),
-                        Text('Add'),
-                      ],
-                    ),
-                  ],
-                ),
+          markers: _markers,
+        ),
+        Positioned(
+          bottom: 100,
+          left: 20,
+          right: 20,
+          child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(Icons.place, color: Colors.red),
+                      SizedBox(width: 8),
+                      Text('Dangerous places.'),
+                    ],
+                  ),
+                  const Row(
+                    children: [
+                      Icon(Icons.place, color: Colors.green),
+                      SizedBox(width: 8),
+                      Text('Safe places.'),
+                    ],
+                  ),
+                  const Row(
+                    children: [
+                      Icon(Icons.add, color: Colors.black),
+                      SizedBox(width: 8),
+                      Text('Add'),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.red,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Add',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.location_on),
-            label: 'Location',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

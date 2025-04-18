@@ -34,7 +34,7 @@ class _PoliceStationLocationScreenState extends State<PoliceStationLocationScree
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.red),
-          onPressed: () {},
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text("Police Station", style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,

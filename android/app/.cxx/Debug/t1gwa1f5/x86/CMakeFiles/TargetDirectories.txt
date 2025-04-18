@@ -1,0 +1,2 @@
+F:/AndroidStudioProjects/crimeAppFrontend/android/app/.cxx/Debug/t1gwa1f5/x86/CMakeFiles/edit_cache.dir
+F:/AndroidStudioProjects/crimeAppFrontend/android/app/.cxx/Debug/t1gwa1f5/x86/CMakeFiles/rebuild_cache.dir

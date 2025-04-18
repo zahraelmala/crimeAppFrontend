@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'core/core/app_routes.dart';
-import 'core/core/bindings.dart';
+import 'core/app_routes.dart';
+import 'core/bindings.dart';
 import 'firebase_options.dart';
 
 bool isExpired = true;
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/home',
+      initialRoute: '/MainScreen',
       initialBinding: AppBinding(),
       getPages: AppRoutes.routes,
     );

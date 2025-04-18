@@ -6,56 +6,49 @@ import 'editProfile.dart';
 import 'helpcenter.dart';
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Profile", style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          SizedBox(height: 20),
-          Center(
-            child: Stack(
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage("assets/profile.jpg"),
+    return Column(
+      children: [
+        SizedBox(height: 20),
+        Center(
+          child: Stack(
+            children: [
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage("assets/profile.jpg"),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: CircleAvatar(
+                  radius: 15,
+                  backgroundColor: Colors.red,
+                  child: Icon(Icons.edit, color: Colors.white, size: 15),
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Colors.red,
-                    child: Icon(Icons.edit, color: Colors.white, size: 15),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-          SizedBox(height: 10),
-          Text("Rodina Ahmed", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
-          Text("Rodinaahmed851@gamil.com", style: TextStyle(color: Colors.grey)),
-          SizedBox(height: 20),
-          Expanded(
-            child: ListView(
-              children: [
-                buildMenuItem(context, Icons.person, "Your Profile", EditProfilePage()),
-                buildMenuItem(context, Icons.post_add, "Your Posts", YourPostsScreen()),
-                buildMenuItem(context, Icons.receipt, "Your Report", YourReportsScreen()),
-                buildMenuItem(context, Icons.settings, "Settings", SettingsScreen()),
-                buildMenuItem(context, Icons.help, "Help Center", HelpCenterScreen()),
-                buildMenuItem(context, Icons.logout, "Log out", null, isLogout: true),
-              ],
-            ),
+        ),
+        SizedBox(height: 10),
+        Text("Rodina Ahmed", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
+        Text("Rodinaahmed851@gamil.com", style: TextStyle(color: Colors.grey)),
+        SizedBox(height: 20),
+        Expanded(
+          child: ListView(
+            children: [
+              buildMenuItem(context, Icons.person, "Your Profile", EditProfilePage()),
+              buildMenuItem(context, Icons.post_add, "Your Posts", YourPostsScreen()),
+              buildMenuItem(context, Icons.receipt, "Your Report", YourReportsScreen()),
+              buildMenuItem(context, Icons.settings, "Settings", SettingsScreen()),
+              buildMenuItem(context, Icons.help, "Help Center", HelpCenterScreen()),
+              buildMenuItem(context, Icons.logout, "Log out", null, isLogout: true),
+            ],
           ),
-        ],
-      ),
-
+        ),
+      ],
     );
   }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HelpCenterScreen extends StatefulWidget {
+  const HelpCenterScreen({super.key});
+
   @override
   _HelpCenterScreenState createState() => _HelpCenterScreenState();
 }
