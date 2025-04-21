@@ -2,14 +2,12 @@ import 'package:dio/dio.dart' as dioo;
 
 const String _baseUrl = "http://10.0.2.2:8000";
 
-const Map<String, dynamic> _headers = {
-  'Content-Type': 'application/json',
-  "Access-Control-Allow-Origin": "*",
-};
-
 dioo.BaseOptions _baseOptions = dioo.BaseOptions(
   baseUrl: _baseUrl,
-  headers: _headers,
+  headers: {
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": "*",
+  },
   sendTimeout: const Duration(seconds: 30),
   receiveTimeout: const Duration(seconds: 30),
   connectTimeout: const Duration(seconds: 30),
@@ -17,13 +15,17 @@ dioo.BaseOptions _baseOptions = dioo.BaseOptions(
 
 class DioConsumer {
   late dioo.Dio dio;
+  String? _idToken;
 
   /// Constructor for DioConsumer class.
   DioConsumer() {
-    // Initialize Dio instance with base options and interceptors
-    dio = dioo.Dio();
-
     dio = dioo.Dio(_baseOptions);
+  }
+
+  /// Method to update the Authorization token
+  void updateToken(String token) {
+    _idToken = token;
+    dio.options.headers['Authorization'] = 'Bearer $token';
   }
 
   /// Make a GET request to the specified endpoint.

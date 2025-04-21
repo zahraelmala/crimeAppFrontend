@@ -1,10 +1,12 @@
+import 'package:a/view/screens/main_screen.dart';
+import 'package:a/view/screens/verify_email_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'home_screen.dart'; // Your home screen
 import 'signup.dart';
-import 'verify_email.dart'; // Your sign-up screen
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -32,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => MainScreen()),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -162,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => VerifyEmail(email: emailController.text.trim())),
+                            MaterialPageRoute(builder: (context) => VerifyEmailScreen(email: emailController.text.trim())),
                           );
                         },
                         child: Text("Forgot your password?", style: TextStyle(color: Colors.red)),

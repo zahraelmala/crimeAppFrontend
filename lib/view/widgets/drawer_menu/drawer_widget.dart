@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/view_model/main_controller.dart';
+import '../../../core/view_model/profile_controller.dart';
 import '../../screens/emergencyService.dart';
 import '../../screens/police.dart';
 import '../../screens/statistical_analysis.dart';
@@ -19,6 +20,16 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
+  final controller = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await controller.fetchUserData();
+    });
+  }
+
   int selectedIndex = 0;
 
   void updateSelection(int index) {
@@ -47,8 +58,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.red, width: 5),
                     shape: BoxShape.circle,
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/Ellipse.png'),
+                    image: DecorationImage(
+                      image: controller.profileImageUrl.value.isNotEmpty
+                          ? NetworkImage(controller.profileImageUrl.value)
+                          : const AssetImage("assets/images/profile_icon.png") as ImageProvider,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -56,16 +69,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      "Rodina Ahmed",
+                      controller.userName.value,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.red,
                         fontSize: 17,
                       ),
                     ),
-                    Text("RodinaAhmed@gmail.com"),
+                    Text(controller.userEmail.value),
                   ],
                 ),
               ],

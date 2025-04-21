@@ -1,4 +1,6 @@
 import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +15,6 @@ import 'custom_close_button.dart';
 /// error dialogs, success dialogs, loading dialogs,
 /// and error dialogs with a reload action.
 abstract class CommonDialogs {
-
   static void showErrorDialog({required String message}) {
     CommonSnackbar.showErrorSnackbar(message: message);
   }
@@ -28,7 +29,7 @@ abstract class CommonDialogs {
         ),
         title: Text(
           message,
-          style: TextStyle(fontSize: 18,color: Colors.black),
+          style: TextStyle(fontSize: 18, color: Colors.black),
         ),
       ),
     );
@@ -48,7 +49,7 @@ abstract class CommonDialogs {
         ),
         title: Text(
           message,
-          style: TextStyle(fontSize: 18,color: Colors.black),
+          style: TextStyle(fontSize: 18, color: Colors.black),
         ),
         actions: viewActions ? const [CustomCloseButton()] : null,
       ),
@@ -69,7 +70,7 @@ abstract class CommonDialogs {
         ),
         title: Text(
           message,
-          style: TextStyle(fontSize: 18,color: Colors.black),
+          style: TextStyle(fontSize: 18, color: Colors.black),
         ),
         actions: actions ?? (viewActions ? const [CustomCloseButton()] : null),
       ),
@@ -87,7 +88,7 @@ abstract class CommonDialogs {
         ),
         title: Text(
           'Please wait until processing your request',
-          style: TextStyle(fontSize: 18,color: Colors.black),
+          style: TextStyle(fontSize: 18, color: Colors.black),
         ),
         actions: const [
           Center(child: CircularProgressIndicator()),
@@ -107,27 +108,39 @@ abstract class CommonDialogs {
         ),
         title: Text(
           message,
-          style: TextStyle(fontSize: 18,color: Colors.black),
+          style: TextStyle(fontSize: 18, color: Colors.black),
         ),
       ),
     );
   }
 
-  static Future<bool?> showConfirmDelete(BuildContext context) async {
+  static Future<bool?> showConfirmDelete(
+      BuildContext context, String label) async {
     Completer<bool?> completer = Completer<bool?>();
-
+    final user = FirebaseAuth.instance.currentUser;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
           icon: const Icon(
             Icons.warning,
             size: 50,
             color: Colors.red,
           ),
-          title: Text(
-            "Are you sure you want to delete this item?",
-            style: TextStyle(fontSize: 18,color: Colors.black),
+          title: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: "Are you sure you want to delete User",
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                ),
+                TextSpan(
+                  text: " $label?",
+                  style: TextStyle(fontSize: 18, color: Colors.red),
+                )
+              ]
+            )
           ),
           actions: [
             CustomButton(
@@ -136,8 +149,8 @@ abstract class CommonDialogs {
               textColor: Colors.white,
               width: 100,
               onTap: () {
-                completer.complete(false); // User canceled deletion
-                Get.back(); // Close the dialog
+                completer.complete(false);
+                Get.back();
               },
             ),
             CustomButton(
@@ -145,9 +158,15 @@ abstract class CommonDialogs {
               buttonColor: Colors.red,
               textColor: Colors.white,
               width: 100,
-              onTap: () {
-                completer.complete(true); // User confirmed deletion
-                Get.back(); // Close the dialog
+              onTap: () async {
+                await user?.delete();
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login',
+                  (route) => false,
+                );
+                completer.complete(true);
+                Get.back();
               },
             ),
           ],

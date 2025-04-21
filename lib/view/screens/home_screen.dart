@@ -20,6 +20,14 @@ class HomeScreen extends StatelessWidget {
             ),
           );
         }
+        if (controller.getAllPostsState == FutureState.failed) {
+          return Text("Something went wrong, Try again later");
+        }
+        if (controller.filteredData.isEmpty) {
+          return const Center(
+            child: Text("No posts found"),
+          );
+        }
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(

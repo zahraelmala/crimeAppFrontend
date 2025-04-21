@@ -1,24 +1,25 @@
-import 'package:a/models/created_by_model.dart';
 
 class PostModel {
   final int? postId;
   final String caption;
-  final String location;
-  final String crimeTime;
-  final String crimeType;
-  final CreatedByModel createdBy;
+  final String? location;
+  final String? crimeTime;
+  final String? crimeType;
+  final String username;
+  final String profilePic;
   final String? createdAt;
   final String? updatedAt;
   final String postPic;
-  final int? likes;
+  final List<dynamic>? likes;
 
   PostModel({
     this.postId,
     required this.caption,
-    required this.location,
-    required this.crimeTime,
-    required this.crimeType,
-    required this.createdBy,
+    this.location,
+    this.crimeTime,
+    this.crimeType,
+    required this.username,
+    required this.profilePic,
     this.createdAt,
     this.updatedAt,
     required this.postPic,
@@ -32,11 +33,26 @@ class PostModel {
       location: json["location"],
       crimeTime: json["crimeTime"],
       crimeType: json["crimeType"],
-      createdBy: CreatedByModel.fromMap(json["created_by"]),
-      createdAt: json["created_at"],
-      updatedAt: json["updated_at"],
+      username: json["username"],
+      profilePic: json["profile_pic"],
       postPic: json["post_pic"],
       likes: json["likes"],
+      createdAt: json["created_at"],
+      updatedAt: json["updated_at"],
+    );
+  }
+
+  factory PostModel.fromCommentMap(Map<String, dynamic> json) {
+    return PostModel(
+      postId: json["post_id"],
+      caption: json["caption"],
+      likes: json["likes"],
+      username: json["username"],
+      createdAt: json["created_at"],
+      updatedAt: json["updated_at"],
+      location: json["location"],
+      profilePic: json["profile_pic"],
+      postPic: json["post_pic"],
     );
   }
 
@@ -46,7 +62,8 @@ class PostModel {
         "location": location,
         "crimeTime": crimeTime,
         "crimeType": crimeType,
-        "created_by": createdBy.toJson(),
+        "username": username,
+        "profile_pic": profilePic,
         "post_pic": postPic,
     };
   }

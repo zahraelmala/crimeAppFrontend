@@ -1,8 +1,12 @@
+import 'package:a/core/services/firebase_service.dart';
 import 'package:a/models/post_model.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-import '../dio_consumer.dart';
+import '../../models/post_comments_model.dart';
+import '../api/dio_consumer.dart';
 import '../errors/error_handler.dart';
 import '../errors/failure.dart';
 
@@ -23,9 +27,24 @@ class PostService extends GetxService {
       );
       final fields =
           (res.data as List).map((field) => PostModel.fromMap(field)).toList();
-
+      print(fields);
       return Right(fields);
     } catch (e) {
+      if (kDebugMode) print("Dio error: $e");
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  Future<Either<Failure, PostModel>> fetchPostById(
+      {required int postID}) async {
+    try {
+      final res = await dioConsumer.get(
+        endpoint: '/posts/$postID/',
+      );
+      final post = PostModel.fromMap(res.data);
+      return Right(post);
+    } catch (e) {
+      if (kDebugMode) print("Dio error: $e");
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -41,6 +60,48 @@ class PostService extends GetxService {
         endpoint: '/posts/',
         data: postModel.toJson(),
       );
+
+      return const Right(true);
+    } catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  Future<Either<dynamic, bool>> likePost({
+    required int postId,
+  }) async {
+    try {
+      String? idToken =
+          await Get.find<FirebaseAuthService>().getCurrentUserToken();
+      if (idToken != null) {
+        Get.find<DioConsumer>().updateToken(idToken);
+        await dioConsumer.post(
+          endpoint: '/posts/$postId/like/',
+        );
+      } else {
+        return Left("No Logged In User Found");
+      }
+
+      return const Right(true);
+    } catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  Future<Either<dynamic, bool>> unLikePost({
+    required int postId,
+  }) async {
+    try {
+      String? idToken =
+          await Get.find<FirebaseAuthService>().getCurrentUserToken();
+      if (idToken != null) {
+        Get.find<DioConsumer>().updateToken(idToken);
+        await dioConsumer.post(
+          endpoint: '/posts/$postId/unlike/',
+        );
+      } else {
+        return Left("No Logged In User Found");
+      }
 
       return const Right(true);
     } catch (e) {
@@ -79,6 +140,52 @@ class PostService extends GetxService {
 
       return const Right(true);
     } catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  Future<Either<dynamic, bool>> addComment({
+    required int postId,
+    required String commentText,
+  }) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      String? idToken =
+          await Get.find<FirebaseAuthService>().getCurrentUserToken();
+      if (idToken != null) {
+        Get.find<DioConsumer>().updateToken(idToken);
+        if (user != null) {
+          await dioConsumer.post(
+            endpoint: '/posts/$postId/comment/',
+            data: {
+              "post": postId,
+              "firebase_uid": user.uid,
+              "text": commentText
+            },
+          );
+        } else {
+          return Left("No Logged In User Found (UUID)");
+        }
+      } else {
+        return Left("No Logged In User Found (TOKEN)");
+      }
+
+      return const Right(true);
+    } catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  Future<Either<Failure, PostCommentsModel>> getPostComments(
+      {required int postID}) async {
+    try {
+      final res = await dioConsumer.get(
+        endpoint: '/posts/$postID/comments-detail/',
+      );
+      final post = PostCommentsModel.fromMap(res.data);
+      return Right(post);
+    } catch (e) {
+      if (kDebugMode) print("Dio error: $e");
       return Left(ErrorHandler.handle(e).failure);
     }
   }

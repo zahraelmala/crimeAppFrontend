@@ -47,7 +47,6 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
             'Self-Defense: Take classes and learn basic techniques for personal protection.',
             'Community Awareness: Know local risks and avoid high-crime areas.',
           ], showArrows: false),
-          Divider(),
           ExpansionTile(
             title: Text('Safety feature', style: TextStyle(fontWeight: FontWeight.bold)),
             children: [

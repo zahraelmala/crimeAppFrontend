@@ -1,0 +1,2 @@
+F:/AndroidStudioProjects/crimeAppFrontend/android/app/.cxx/RelWithDebInfo/3e414811/armeabi-v7a/CMakeFiles/edit_cache.dir
+F:/AndroidStudioProjects/crimeAppFrontend/android/app/.cxx/RelWithDebInfo/3e414811/armeabi-v7a/CMakeFiles/rebuild_cache.dir

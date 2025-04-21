@@ -15,7 +15,10 @@ class PostHeader extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 25,
-            backgroundImage: NetworkImage(post.createdBy.profilePic),
+            backgroundImage: post.profilePic.isNotEmpty
+                ? NetworkImage(post.profilePic)
+                : const AssetImage("assets/images/profile_icon.png")
+            as ImageProvider,
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -23,7 +26,7 @@ class PostHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  post.createdBy.username,
+                  post.username,
                   style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -35,7 +38,7 @@ class PostHeader extends StatelessWidget {
                     const Icon(Icons.location_on, color: Colors.red, size: 15),
                     const SizedBox(width: 4),
                     Text(
-                      post.location,
+                      post.location!,
                       style: const TextStyle(fontSize: 15, color: Colors.red),
                     ),
                   ],

@@ -18,15 +18,9 @@ class _YourReportsScreenState extends State<YourReportsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Container(
-          decoration: BoxDecoration(
-            color: Colors.red,
-            shape: BoxShape.circle,
-          ),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white, size: 18),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.red, size: 18),
+          onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('Your reports', style: TextStyle(color: Colors.black, fontSize: 18)),
         backgroundColor: Colors.white,
