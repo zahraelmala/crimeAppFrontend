@@ -1,89 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MappingPage extends StatefulWidget {
-  const MappingPage({super.key});
-
   @override
-  MappingPageState createState() => MappingPageState();
+  _MappingPageState createState() => _MappingPageState();
 }
 
-class MappingPageState extends State<MappingPage> {
-  late GoogleMapController mapController;
+class _MappingPageState extends State<MappingPage> {
+  GoogleMapController? _mapController;
+  Marker? _currentLocationMarker;
 
-  final Set<Marker> _markers = {
-    Marker(
-      markerId: const MarkerId('safe1'),
-      position: const LatLng(37.7749, -122.4194),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-      infoWindow: const InfoWindow(title: 'Safe Place'),
-    ),
-    Marker(
-      markerId: const MarkerId('danger1'),
-      position: const LatLng(37.7849, -122.4094),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-      infoWindow: const InfoWindow(title: 'Dangerous Place'),
-    ),
-  };
+  final Set<Marker> _markers = {};
+  LatLng? _currentLatLng;
 
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    final position = await Geolocator.getCurrentPosition();
+    _currentLatLng = LatLng(position.latitude, position.longitude);
+
+    // Add initial marker
+    _updateMarker(_currentLatLng!);
+
+    // Move camera once map is ready
+    if (_mapController != null) {
+      _mapController!.animateCamera(
+        CameraUpdate.newLatLng(_currentLatLng!),
+      );
+    }
+
+    // Listen to location updates
+    Geolocator.getPositionStream().listen((Position newPosition) {
+      _currentLatLng = LatLng(newPosition.latitude, newPosition.longitude);
+      _updateMarker(_currentLatLng!);
+      _mapController?.animateCamera(CameraUpdate.newLatLng(_currentLatLng!));
+    });
+  }
+
+  void _updateMarker(LatLng position) {
+    final marker = Marker(
+      markerId: MarkerId('current_location'),
+      position: position,
+      infoWindow: InfoWindow(title: 'You are here'),
+    );
+
+    setState(() {
+      _markers.clear();
+      _markers.add(marker);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(37.7749, -122.4194),
-            zoom: 12.0,
-          ),
-          markers: _markers,
+    return Scaffold(
+      body: GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: _currentLatLng ?? LatLng(0, 0),
+          zoom: 15,
         ),
-        Positioned(
-          bottom: 100,
-          left: 20,
-          right: 20,
-          child: Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Row(
-                    children: [
-                      Icon(Icons.place, color: Colors.red),
-                      SizedBox(width: 8),
-                      Text('Dangerous places.'),
-                    ],
-                  ),
-                  const Row(
-                    children: [
-                      Icon(Icons.place, color: Colors.green),
-                      SizedBox(width: 8),
-                      Text('Safe places.'),
-                    ],
-                  ),
-                  const Row(
-                    children: [
-                      Icon(Icons.add, color: Colors.black),
-                      SizedBox(width: 8),
-                      Text('Add'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
+        markers: _markers,
+        onMapCreated: (controller) {
+          _mapController = controller;
+
+          // Move camera to current location once it's loaded
+          if (_currentLatLng != null) {
+            _mapController!.animateCamera(
+              CameraUpdate.newLatLng(_currentLatLng!),
+            );
+          }
+        },
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+      ),
     );
   }
 }

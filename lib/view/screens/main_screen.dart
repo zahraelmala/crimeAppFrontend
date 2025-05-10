@@ -28,7 +28,7 @@ class MainScreen extends StatelessWidget {
           children: [
             HomeScreen(),
             CrimeReportScreen(),
-            const MappingPage(),
+            MappingPage(),
             ProfilePage(),
           ],
         ),

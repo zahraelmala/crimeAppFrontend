@@ -8,9 +8,9 @@ dioo.BaseOptions _baseOptions = dioo.BaseOptions(
     'Content-Type': 'application/json',
     "Access-Control-Allow-Origin": "*",
   },
-  sendTimeout: const Duration(seconds: 30),
-  receiveTimeout: const Duration(seconds: 30),
-  connectTimeout: const Duration(seconds: 30),
+  sendTimeout: const Duration(seconds: 160),
+  receiveTimeout: const Duration(seconds: 160),
+  connectTimeout: const Duration(seconds: 160),
 );
 
 class DioConsumer {
